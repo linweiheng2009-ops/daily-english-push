@@ -54,7 +54,10 @@ SYSTEM_PROMPT = """你是为一位中文母语、英语中级水平的用户准�
 
 def generate_content(date_str: str) -> dict:
     """调 Claude Haiku 生成结构化内容。"""
-    client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = Anthropic(
+        api_key=os.environ["ANTHROPIC_API_KEY"],
+        base_url=os.environ.get("ANTHROPIC_BASE_URL"),  # 可选,默认 api.anthropic.com
+    )
     response = client.messages.create(
         model="claude-haiku-4-5",
         max_tokens=4096,

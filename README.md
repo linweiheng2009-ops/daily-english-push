@@ -16,12 +16,13 @@ PushPlus HTTP POST → 微信通知卡片
 
 ## 配置 Secrets
 
-GitHub repo → Settings → Secrets and variables → Actions,加 2 个:
+GitHub repo → Settings → Secrets and variables → Actions,加 3 个:
 
-| Secret 名 | 说明 |
-|-----------|------|
-| `ANTHROPIC_API_KEY` | Claude API key (`sk-ant-...`) |
-| `PUSHPLUS_TOKEN` | PushPlus 个人中心 token (pushplus.plus) |
+| Secret 名 | 必填 | 说明 |
+|-----------|------|------|
+| `ANTHROPIC_API_KEY` | ✅ | Claude API key (`sk-ant-...`) 或中转服务 token |
+| `ANTHROPIC_BASE_URL` | ⬜ | 中转服务 base URL(如 `https://api.minimaxi.com/anthropic`),直连 Anthropic 不填 |
+| `PUSHPLUS_TOKEN` | ✅ | PushPlus 个人中心 token (pushplus.plus) |
 
 ## 本地测试
 

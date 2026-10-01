@@ -79,26 +79,33 @@ def generate_content(date_str: str) -> dict:
 
 
 def render_markdown(content: dict, date_str: str) -> str:
-    """渲染成 Markdown(供 PushPlus markdown template 渲染)。"""
-    lines = [f"# 📚 今日英语 · {date_str}", "", f"_{content['greeting']}_", ""]
+    """渲染成 Markdown(供 PushPlus markdown template 渲染)。
+
+    排版原则:
+    - 每个英文句子独占一行(粗体),避免窄屏换行拆断单词
+    - 场景 / 翻译 / 贴士 各占一行,清晰分层
+    - 不用表格,避免单元格宽度限制
+    """
+    lines = [
+        f"# 📚 今日英语 · {date_str}",
+        "",
+        f"_{content['greeting']}_",
+        "",
+    ]
 
     lines += ["## 🗣️ 日常口语 (1–5)", ""]
-    lines += ["| # | 英文 | 场景 | 中文 | 小贴士 |", "|---|------|------|------|--------|"]
     for s in content["daily_sentences"]:
-        lines.append(
-            f"| {s['no']} | **{s['english']}** | {s['scene']} | "
-            f"{s['translation']} | {s['tip']} |"
-        )
-    lines.append("")
+        lines.append(f"**{s['no']} · {s['english']}**")
+        lines.append(f"_{s['scene']}_ · {s['translation']}")
+        lines.append(f"💡 {s['tip']}")
+        lines.append("")
 
     lines += ["## 🧠 进阶表达 / 俚语 (6–10)", ""]
-    lines += ["| # | 英文 | 场景 | 中文 | 小贴士 |", "|---|------|------|------|--------|"]
     for s in content["advanced_sentences"]:
-        lines.append(
-            f"| {s['no']} | **{s['english']}** | {s['scene']} | "
-            f"{s['translation']} | {s['tip']} |"
-        )
-    lines.append("")
+        lines.append(f"**{s['no']} · {s['english']}**")
+        lines.append(f"_{s['scene']}_ · {s['translation']}")
+        lines.append(f"💡 {s['tip']}")
+        lines.append("")
 
     m = content["movie"]
     lines += [

@@ -1,0 +1,28 @@
+name: Daily English Push
+
+on:
+  schedule:
+    # 07:00 CST = 23:00 UTC (前一天的 23:00)
+    - cron: '0 23 * * *'
+  workflow_dispatch:  # 手动触发,用于测试
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate content and push to WeChat
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+        run: python scripts/generate_and_send.py
